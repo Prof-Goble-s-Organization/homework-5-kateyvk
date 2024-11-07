@@ -91,9 +91,36 @@ public class COMP232ArrayHeap<K extends Comparable<K>, V> implements COMP232Prio
          * node up the tree.
 	 * I recommend creating a helper function to assist with the percolation.
          */
-        throw new UnsupportedOperationException("Not yet implemented");
+    	//create a way to hold the new node
+    	HeapNode<K,V> addNode = new HeapNode<>(key,value);
+    	//add the node to the tree's last index(with array backing)
+    	tree.add(addNode);
+    	//use the helper method to percolate up-assuming that the new node's index is the last index in the array
+    	percolateUp(tree.size()-1);
+    	
+    	
+       
     }
-
+    
+    //helper method for percolation
+    public void percolateUp(int index) {
+    	//while we are not at the root
+    	while(index > 0) {
+    		//find and store the current node's parent's index
+    		int parIndex = getParentIndex(index);
+    		//we need to get both the curr and parent node and then compare them
+    		HeapNode<K,V> currNode = tree.get(index);
+    		HeapNode<K,V> parentNode = tree.get(parIndex);
+    		
+    		//this would only be true if curr is greater than parent
+    		if(currNode.key.compareTo(parentNode.key)>0) {
+    			swap(index,parIndex);
+    			index = parIndex;
+    			//if true swap parent and child and reset index
+    		}
+    	}
+    	
+    }
     /**
      * Helper method that swaps two elements of the tree
      * @param indexA
@@ -205,8 +232,30 @@ public class COMP232ArrayHeap<K extends Comparable<K>, V> implements COMP232Prio
      *          Thrown if the heap is empty
      */
     public void adjustPriority(V value, K newKey) {
-        // Intentionally not implemented -- see homework assignment
-        throw new UnsupportedOperationException("Not yet implemented.");
+    	if(tree.size()==0) {
+    		throw new IllegalStateException("Heap cannot be empty");
+    		
+    	}
+    	
+    	//iterating through the array
+    	for(int i=0;i<tree.size();i++) {
+    		//if the node at i has an equivalent value to the target 
+    		if(tree.get(i).value.equals(value)) {
+    			System.out.println("Matching value found!!");
+    			//we swap the node at i with the newKey
+    			tree.get(i).key = newKey;
+    			//if the new key is larger than the parent percolate up
+    			if(i>0 && tree.get(i).key.compareTo(tree.get(getParentIndex(i)).key)>0) {
+    				percolateUp(i);
+    			}else {//if the new key is less than trickle down
+    				trickleDown(i);
+    			}
+    		}
+    		
+    	}
+    
+    	
+      
 
         /*
          * Find the node with the value -- Hint: Just search through the array!
@@ -239,7 +288,7 @@ public class COMP232ArrayHeap<K extends Comparable<K>, V> implements COMP232Prio
     /**
      * Helper method that checks that the heap property is preserved. That is 
      * that every parent's key is larger than its children's keys, as defined by 
-     * the compareTo method. This is used by the tests to check the interal 
+     * the compareTo method. This is used by the tests to check the internal 
      * structure of the heap.
      */
     boolean checkHeapProperty() {
