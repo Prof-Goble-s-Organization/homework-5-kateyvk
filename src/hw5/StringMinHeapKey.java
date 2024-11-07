@@ -5,6 +5,7 @@ public class StringMinHeapKey implements Comparable<StringMinHeapKey> {
 
     public StringMinHeapKey(String key) {
         this.key = key;
+        //System.out.println(key);
     }
 
     public int compareTo(StringMinHeapKey o) {
@@ -15,7 +16,9 @@ public class StringMinHeapKey implements Comparable<StringMinHeapKey> {
          * Fix this so that the keys as specified below form a valid heap in 
          * the given order. I.e. "A" has a higher priority than  "B", etc.
          */
-        return key.compareTo(o.key);
+        return -key.compareTo(o.key);
+    	
+       
     }
 
     public static void main(String[] args) {
@@ -26,8 +29,10 @@ public class StringMinHeapKey implements Comparable<StringMinHeapKey> {
         StringMinHeapKey[] strMinKeys = new StringMinHeapKey[keys.length];
         for (int i = 0; i < keys.length; i++) {
             strMinKeys[i] = new StringMinHeapKey(keys[i]);
+            System.out.println(strMinKeys[i].key);
         }
-
+        //public constructor from ArrayHeap below
+        //public COMP232ArrayHeap(K[] keys, V[] values) {
         // Make a heap from the strMinKeys and values
         COMP232ArrayHeap<StringMinHeapKey, Integer> heap = new COMP232ArrayHeap<StringMinHeapKey, Integer>(strMinKeys, values);
 

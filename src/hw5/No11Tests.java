@@ -185,9 +185,10 @@ public class No11Tests {
 
 		COMP232LinkedBinarySearchTree<Integer, String> bst = new COMP232LinkedBinarySearchTree<Integer, String>(
 				keys, vals);
-		
+		System.out.println(bst.size());
 		String val = bst.remove(15);
-
+		System.out.println(bst.size());
+		System.out.println(val);
 		assertEquals("Incorrect value returned", "B", val);
 		assertEquals("Incorrect size", 6, bst.size());
 
@@ -212,6 +213,8 @@ public class No11Tests {
 				keys, vals);
 		
 		String val = bst.remove(30);
+		
+		//System.out.println(val);
 
 		assertEquals("Incorrect value returned", "D", val);
 		assertEquals("Incorrect size", 6, bst.size());
